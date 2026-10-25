@@ -30,3 +30,4 @@ function integer(n){const limit=4294967296-4294967296%n;let a=new Uint32Array(1)
 function draw(reversed=true,random=integer){const pool=cards.map(c=>c.id);const out=[];for(let i=0;i<5;i++){const j=random(pool.length);out.push({id:pool.splice(j,1)[0],reversed:reversed?random(2)===1:false});}return out;}
 const api={cards,positions,draw};root.Tarot=api;if(typeof module!=='undefined')module.exports=api;
 })(globalThis);
+

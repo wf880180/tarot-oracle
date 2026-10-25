@@ -1,32 +1,43 @@
 # 拾光 · 塔羅手記
 
-直接開啟 `index.html` 即可使用。無須安裝、沒有外部套件或網路依賴。獨立存放於 tarot-oracle，數字卦原始檔保持原樣。
+JavaScript 靜態網頁，發布於 https://wf880180.github.io/tarot-oracle/ 。無須安裝套件；核心抽牌邏輯維持 JavaScript。
 
-## 本版牌陣
+## 使用流程
 
-五張直抽的自訂大十字，使用 22 張大阿爾克那。牌位順序為現況（左）、阻礙（右）、建議（上）、發展（下）、整體結果（中）。五張不重複，可選擇含逆位或全正位。使用 Web Crypto 亂數及拒絕取樣，避免取餘數偏差。愚人 0、力量 8、正義 11。
+1. 以圓點單選偉特、托特或馬賽塔羅，查看卡背與愚者預覽。
+2. 按「使用這副牌，下一步」，填主題與問題，選擇是否包含逆位。
+3. 固定從所選牌組的 22 張大阿爾克那中不重複抽五張。
+4. 逐張翻開或翻開全部，閱讀後儲存手記。
 
-此版依五張牌工具需求，固定直抽五張。不同於先抽四張再加總牌號求第五張的流派，也不是十張凱爾特十字。牌陣可於後續擴充。
+牌陣維持五張直抽大十字：現況（左）、阻礙（右）、建議（上）、發展（下）、整體結果（中）。不使用四張牌號加總求第五張的版本。不提供 78 張牌庫或其他牌陣選項。
 
-牌面使用幾何符號，不包含傳統牌畫。牌義是預先撰寫的現代語整理，非古籍引文或即時 AI；主題加入對應反思提示，問題僅供紀錄。
+## 三種牌組
 
-## 功能
+- 偉特：力量 VIII、正義 XI。
+- 托特：調整 VIII、慾望 XI、藝術 XIV、新紀元 XX、宇宙 XXI；預設不使用逆位，可自行開啟現代反思式逆位。
+- 馬賽：正義 VIII、力量 XI，愚者無印刷編號；本工具內部以 id 0 儲存愚者。
 
-- 逐張翻牌或一次翻開、正逆位牌義與五個牌位說明。
-- 工作、感情、家庭與其他主題，問題備註與個人觀察。
-- localStorage 本機紀錄、重新查看、修改觀察後儲存、單筆刪除。
-- 複製、下載文字與匯出 JSON 備份（目前無匯入還原功能）。
+`core.js` 保留 22 張牌的固定象徵 id，使用 Web Crypto 拒絕取樣亂數抽取五張，並獨立決定正逆位。`decks.js` 依牌組映射牌名、印刷編號、牌義與提示；因此流派號碼差異不影響舊紀錄中的牌身分。
 
-紀錄不會同步到其他裝置。不同瀏覽器、網域與本機檔案的紀錄互不相通。file:// 的儲存可用性依瀏覽器而異；若被阻擋仍可下載文字。建議定期備份。
+解讀為現代語入門整理，非原典逐字翻譯、專業完整流派教學或即時 AI 預測。不計算占星、卡巴拉與元素尊貴。問題只作備註。
 
-## 檢查
+## 圖片預覽與來源
 
-`node test.cjs` 驗證牌庫與不重複抽牌規則。
+`assets/` 僅有卡背與愚者的小型辨識預覽。實際抽牌的卡背及愚者使用對應圖片，其餘 21 張以幾何符號與牌名呈現。目前並未收錄三副完整22張牌畫。圖片權利屬原作者／出版社，僅用於流派辨識比較，不表示合作或授權銷售。
 
-目前為本機版，尚未發布網站。
+- 偉特（Rider–Waite／U.S. Games 版）：https://www.aeclectic.net/tarot/cards/rider-waite/ ，愚者 rider-waite-03676.jpg，卡背 rider-waite-03684.jpg。
+- 托特（Aleister Crowley／Frieda Harris）：https://www.aeclectic.net/tarot/cards/aleister-crowley-thoth/ ，愚者 aleister-crowley-thoth-03685.jpg，卡背 aleister-crowley-thoth-03694.jpg。
+- 馬賽歷史愚者（Jean Dodal, 1701–1715，公共領域）：https://commons.wikimedia.org/wiki/File:Jean_Dodal_Tarot_trump_Fool.jpg 。
+- 馬賽現代 Dodal 系卡背：https://www.learntarot.com/mrdesc.htm ，mrback.gif。馬賽兩張示範圖非同一印次，頁面有註明。
 
-## GitHub Pages
+馬賽並非單一出版社牌組，因此使用具名代表版本，不宣稱卡背為所有馬賽牌的共同圖樣。
 
-建立 `wf880180/tarot-oracle` 儲存庫，把 index.html、style.css、core.js、app.js、.nojekyll 與 README.md 上傳至根目錄。在 Settings → Pages 選 Deploy from a branch，分支 main，目錄 /(root)，按 Save。
+## 紀錄與部署
 
-發布完成後的預期網址：https://wf880180.github.io/tarot-oracle/ （目前尚未發布）。請勿上傳 .openai 資料夾。
+紀錄只儲存在目前網站、目前瀏覽器的 localStorage，不會上傳 GitHub。舊版紀錄未存牌組時，預設為偉特，可繼續查看與更新。可複製、下載文字或匯出 JSON 備份（目前無匯入功能）。讀取紀錄失敗時不覆蓋原始資料，仍可抽牌與下載文字。
+
+GitHub Pages 使用 main 分支的 /(root)；部署檔案為 index.html、style.css、core.js、decks.js、app.js、assets/、.nojekyll、README.md、test.cjs。不要上傳 .openai、tmp、預覽伺服器或生成草稿。
+
+## 驗證
+
+執行 `node test.cjs`：驗證1000次不重複抽牌、正逆位邊界、三副各22張、編號映射與六張圖片存在。瀏覽器驗證涵蓋先選牌才能繼續、托特全正位預設、五張抽牌、翻牌解讀與牌組紀錄重新載入。
